@@ -1,0 +1,191 @@
+@import 'bootstrap/scss/bootstrap';
+
+$primary-color: #8093fd;
+$secondary-color : #d0cccc;
+
+body{
+    margin: 0;
+}
+
+header{
+    background-color: $primary-color;
+
+     ul{
+        display: inline-flex;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        li{
+            transition: all 0.3s ease;
+            padding: 2vh 2vw 2vh 2vw;
+            font-size: 22px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    }
+}
+
+.itemMenu:hover{
+    background-color: white;
+}
+
+.indexOption{
+    color: black;
+    background-color: $secondary-color;
+    transition: all 0.25s ease;
+    &:hover{
+        background-color: white;
+        cursor: pointer;
+    }
+}
+
+.formClass{
+    color: black;
+    display: block;
+    background-color: $primary-color;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#textoContainer{
+    width: 60%;
+    height: fit-content;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    margin-left: 20%;
+}
+
+.headerContainer{
+    display: inline-flex;
+    background-color: $primary-color;
+    color: white;
+    border-radius: 4px 4px 0 0;
+    .titulo{
+        font-weight: bold;
+        margin-right: auto;
+        text-align: center;
+    }
+}
+
+.significado{
+    position: relative;
+    display: inline-block;
+}[title]:hover::after{
+    content: attr(title);
+    background-color: $secondary-color;
+    position: static;
+    margin-left: 7px;
+}
+
+#textoDoc{
+    pre{
+        display: flex;
+        padding: 0;
+        overflow-x: hidden;
+        text-align: inherit;
+        margin: 0;
+        justify-content: inherit;
+    }
+    span{
+        padding: 0;
+        width: fit-content;
+    }
+}
+
+#botoesLeitor{
+    display: inline-flex;
+    width: 100%;
+    display: flex;
+    gap: 25%;
+    justify-content: center;
+    button{
+        width: 25%;
+    }
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid $secondary-color; 
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+  justify-self: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#popupPalavra{
+    background-color: white;
+    position: fixed;
+    top: 13vh;
+    margin-left: 70%;
+    border: 1px solid $secondary-color;
+    border-radius: 7px;
+    width: 25%;
+    padding: 0;
+    text-align: center;
+    div{
+        width: 100%;
+        display: block;
+        border-radius: 6px 6px 0 0;
+    }
+
+}
+
+#containerDocumentos{
+    display: inline-flex;
+    gap: 3%;
+    padding: 2%;
+    background-color: $secondary-color;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+}
+
+.linkBib{
+    text-decoration: none;
+    color: black;
+}
+
+.containerDocumento{
+    background-color: $primary;
+    border-radius: 8px;
+    min-width: 25%;
+    width: 25%;
+    padding-bottom: 2.5%;
+    white-space: nowrap;
+    overflow-x: hidden;
+    transition: all 0.4s ease;
+
+    h1,p{
+        overflow-x: hidden;
+    }
+}
+
+.containerDocumento:hover{
+    background-color: white;
+}
+
+.removeImg{
+    width: 5%;
+    height: 5%;
+}
+
+.rmvBotao{
+    width: 22.3%;
+    display: none;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+}
+
+.containerDocumento:hover .rmvBotao{
+    display: block;
+}
