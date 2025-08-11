@@ -72,12 +72,11 @@ header{
 
 .significado{
     position: relative;
-    display: inline-block;
+    display: grid;
 }[title]:hover::after{
     content: attr(title);
     background-color: $secondary-color;
-    position: static;
-    margin-left: 7px;
+    position: relative;
 }
 
 #textoDoc{

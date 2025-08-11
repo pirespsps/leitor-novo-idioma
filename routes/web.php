@@ -22,3 +22,5 @@ Route::post('/documento/ler',[LeitorController::class,'lerAxios'])->name("lerAxi
 Route::post('/documento/salvarPagina',[LeitorController::class,'salvarPagina']);
 
 Route::post('/documento/salvarPalavra',[PalavraController::class, 'salvarPalavra'])->name("salvar-palavra");
+
+Route::get('/palavras',[PalavraController::class,'index']);
