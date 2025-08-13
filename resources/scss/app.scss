@@ -3,6 +3,11 @@
 $primary-color: #8093fd;
 $secondary-color : #d0cccc;
 
+a{
+    text-decoration: none;
+    color: black;
+}
+
 body{
     margin: 0;
 }
@@ -19,10 +24,6 @@ header{
             transition: all 0.3s ease;
             padding: 2vh 2vw 2vh 2vw;
             font-size: 22px;
-        }
-        a{
-            text-decoration: none;
-            color: black;
         }
     }
 }
@@ -187,4 +188,8 @@ header{
 
 .containerDocumento:hover .rmvBotao{
     display: block;
+}
+
+#idiomas{
+    display: inline-flex;
 }

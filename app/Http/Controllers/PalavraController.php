@@ -8,29 +8,46 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class PalavraController extends Controller{
+class PalavraController extends Controller
+{
 
-    public function index(){
+    public function index()
+    {
         //$idiomas = Palavra::all("idioma")->groupBy('idioma')->toArray();
         $idiomas = DB::table('tbPalavra')->distinct()->get('idioma')->toArray();
-        $palavrasIdioma = [];
-        
-        foreach($idiomas as $idioma){
+        $idiomaAr = [];
 
-            $palavrasIdioma[$idioma->idioma] = [];
-            $palavras = Palavra::whereRaw('idioma = ?',[$idioma->idioma])->get();
-
-            foreach($palavras as $palavra){
-                $palavraOriginal = $palavra->palavraOriginal;
-                $significado = $palavra->significado;
-                array_push($palavrasIdioma[$idioma->idioma],[$palavraOriginal => $significado]);
-            }
-
+        foreach ($idiomas as $idioma) {
+            $idiomaStr = $idioma->idioma;
+            $idiomaAr[] = [$this->isoToPalavra($idiomaStr), $idioma->idioma];
         }
 
-        return view('palavras',
-        ['dicionario' => $palavrasIdioma]);
+        return view(
+            'palavras',
+            ['idiomas' => $idiomaAr]
+        );
     }
+
+    public function lerIdioma(Request $request, $idioma)
+    {
+
+        $palavras = Palavra::whereRaw('idioma = ?', [$idioma])->get();
+        $palavrasAr = [];
+
+        foreach ($palavras as $palavra) {
+            $palavrasAr[] = [
+                'original' => $palavra->palavraOriginal,
+                'significado' => $palavra->significado,
+                'data' => $this->formatarData($palavra->created_at)
+            ];
+        }
+
+        return view(
+            'leitor-palavras',
+            ['palavras' => $palavrasAr]
+        );
+    }
+
     public function salvarPalavra(Request $request)
     {
 
@@ -43,9 +60,35 @@ class PalavraController extends Controller{
         $palavra->significado = $significado;
         $palavra->idioma = $idioma;
 
-        Session::push('palavras',$palavra);
+        Session::push('palavras', $palavra);
 
         $palavra->save();
 
     }
+
+    private function formatarData($data){
+        $ano = substr($data,0,4);
+        $mes = substr($data,5,2);
+        $dia = substr($data,8,2);
+        return "$dia/$mes/$ano";
+    }
+
+    private function isoToPalavra($iso)
+    {
+        switch ($iso) {
+            case 'pt':
+                return "Português";
+            case 'en':
+                return "Inglês";
+            case 'es':
+                return "Espanhol";
+            case 'fr':
+                return "Francês";
+            case 'it':
+                return "Italiano";
+            default:
+                return 'Indefinido';
+        }
+    }
+
 }
