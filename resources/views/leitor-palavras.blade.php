@@ -2,14 +2,42 @@
 
 @section('conteudo')
 
-<!-- criar table.... -->
-@foreach ($palavras as $palavra)
+<div class="container" id="bodyPalavras">
 
-{{ $palavra['original'] }} = {{ $palavra['significado'] }} | {{ $palavra['data'] }}
+<div class="container-fluid mt-4">
+    <div class="container-fluid" id="exercicios">
 
-<br> 
-<br>
-@endforeach
+        <div class="exercicio">
+            <img src="{{ asset('images/dailyIcon.png') }}">
+            <p class="fw-bold">Revisão do dia</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <table class="table table-striped table-bordered table-hover mt-5">
+        <thead class="thead-dark table-primary">
+            <th>#</th>
+            <th>Palavra</th>
+            <th>Significado</th>
+            <th>Aprendida</th>
+        </thead>
+        <tbody>
+            @foreach ($palavras as $palavra)
+                <tr>
+                    <td>{{ $palavra['id'] }}</td>
+                    <td>{{ $palavra['original'] }}</td>
+                    <td>{{ $palavra['significado'] }}</td>
+                    <td>{{ $palavra['data'] }}</td>
+
+                </tr>
+            @endforeach
+
+        </tbody>
+    </table>
+</div>
+</div>
 
 
 @endsection

@@ -28,23 +28,25 @@ class PalavraController extends Controller
         );
     }
 
-    public function lerIdioma(Request $request, $idioma)
-    {
+    public function lerIdioma(Request $request, $idioma){
 
-        $palavras = Palavra::whereRaw('idioma = ?', [$idioma])->get();
-        $palavrasAr = [];
-
-        foreach ($palavras as $palavra) {
-            $palavrasAr[] = [
-                'original' => $palavra->palavraOriginal,
-                'significado' => $palavra->significado,
-                'data' => $this->formatarData($palavra->created_at)
-            ];
-        }
+        $palavras = Palavra::select(['id','palavraOriginal','significado','created_at'])
+                             ->whereRaw('idioma = ?', [$idioma])
+                             ->orderBy('created_at','DESC')
+                             ->get()
+                             ->map(function($palavra){
+                                return [
+                                    'original' => $palavra->palavraOriginal,
+                                    'significado' => $palavra->significado,
+                                    'data' => $palavra->created_at->format('d/m/Y'),
+                                    'id' => $palavra->id
+                                ];
+                             })
+                             ->toArray();
 
         return view(
             'leitor-palavras',
-            ['palavras' => $palavrasAr]
+            ['palavras' => $palavras]
         );
     }
 
@@ -66,29 +68,16 @@ class PalavraController extends Controller
 
     }
 
-    private function formatarData($data){
-        $ano = substr($data,0,4);
-        $mes = substr($data,5,2);
-        $dia = substr($data,8,2);
-        return "$dia/$mes/$ano";
-    }
-
-    private function isoToPalavra($iso)
-    {
-        switch ($iso) {
-            case 'pt':
-                return "Português";
-            case 'en':
-                return "Inglês";
-            case 'es':
-                return "Espanhol";
-            case 'fr':
-                return "Francês";
-            case 'it':
-                return "Italiano";
-            default:
-                return 'Indefinido';
-        }
+    //criar classe de formatação
+    private function isoToPalavra($iso){
+        $idiomas = [
+            'pt' => 'Português',
+            'en' => 'Inglês',
+            'es' => 'Espanhol',
+            'fr' => 'Francês',
+            'it' => 'Italiano'
+        ];
+       return $idiomas[$iso] ?? 'Indefinido';
     }
 
 }

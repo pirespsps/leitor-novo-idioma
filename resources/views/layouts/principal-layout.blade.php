@@ -13,7 +13,7 @@
         <ul>
             <a href="/leitor"><li class="itemMenu">Menu</li></a>
             <a href="/biblioteca"><li class="itemMenu">Salvos</li></a>
-            <a href="form"><li class="itemMenu">Novo</li></a>
+            <a href="/form"><li class="itemMenu">Novo</li></a>
             <a href="/palavras"><li class="itemMenu">Palavras</li></a>
         </ul>
     </header>

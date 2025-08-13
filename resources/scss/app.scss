@@ -193,3 +193,30 @@ header{
 #idiomas{
     display: inline-flex;
 }
+
+#bodyPalavras{
+
+    #exercicios{
+        min-height: 23vh;
+        border-radius: 8px;
+        padding: 1.5vh;
+        background-color: $secondary-color;
+
+        .exercicio{
+            background-color: $primary-color;
+            border-radius: 5px;
+            width: 12vw;
+            height: 20vh;
+            text-align: center;
+            transition: all 0.35s ease-in-out;
+            img{
+                margin-top: 5px;
+                width: 50%;
+                height: 70%;
+            }
+        }
+        .exercicio:hover{
+            background-color: white;
+        }
+    }
+}
