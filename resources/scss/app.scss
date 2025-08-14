@@ -197,10 +197,13 @@ header{
 #bodyPalavras{
 
     #exercicios{
+        display: flex;
+        gap: 3%;
         min-height: 23vh;
         border-radius: 8px;
         padding: 1.5vh;
         background-color: $secondary-color;
+        overflow-y: hidden;
 
         .exercicio{
             background-color: $primary-color;
@@ -217,6 +220,18 @@ header{
         }
         .exercicio:hover{
             background-color: white;
+            cursor: pointer;
         }
     }
+}
+
+#formPratica{
+    width: 40vw;
+    height: 50vh;
+    border-radius: 7px;
+    button{
+        //centralizar melhor
+       margin-left: 15.34vw;
+    }
+
 }

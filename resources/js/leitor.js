@@ -85,7 +85,7 @@ function dividirLinha(linha,palavras) {
             novaLinha.appendChild(palavraDiv);
 
         }else{
-            //arrumar para quando o char estiver no meio da palavra..
+            //arrumar para quando o char estiver no meio da palavra.. (d'être, aujourd'hui...)
 
             const strEspecial = palavra.charAt(palavra.search(re));
             const charEspecial = document.createElement("span");

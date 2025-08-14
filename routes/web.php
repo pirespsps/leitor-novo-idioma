@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeitorController;
 use App\Http\Controllers\LeitorFormController;
 use App\Http\Controllers\BibliotecaController;
 use App\Http\Controllers\PalavraController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PraticaController;
 
 
 Route::get('/', [IndexController::class,'index']);
@@ -25,3 +26,4 @@ Route::post('/documento/salvarPalavra',[PalavraController::class, 'salvarPalavra
 
 Route::get('/palavras',[PalavraController::class,'index']);
 Route::get('/palavras/{idioma}',[PalavraController::class,'lerIdioma']);
+Route::get('/palavras/{idioma}/praticar',[PraticaController::class,'index']);

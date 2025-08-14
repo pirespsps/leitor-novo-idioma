@@ -46,7 +46,7 @@ class PalavraController extends Controller
 
         return view(
             'leitor-palavras',
-            ['palavras' => $palavras]
+            ['palavras' => $palavras, 'idioma' => $idioma]
         );
     }
 
