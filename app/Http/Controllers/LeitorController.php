@@ -50,16 +50,18 @@ class LeitorController extends Controller
         $arrayDoc['pagina'] = $pagina;
 
         $leitor = new Parser();
-        $pdf = $leitor->parseContent(Storage::get(path: $arrayDoc['path']));
+        $pdf = $leitor->parseContent(Storage::get($arrayDoc['path']));
 
         $arrayPos = $pdf->getPages()[$pagina]->getDataTm();
 
         $linhas = $this->toLinhas($arrayPos);
 
         session(['documento' => $arrayDoc]);
+
         $palavras = session('palavras');
         $palavrasArray = [];
 
+        //apagar depois de mudar para o session['palavras'] para array
         if (!is_null($palavras) && !sizeof($palavras) == 0) {
             foreach ($palavras as $palavra) {
                 $palavrasArray[$palavra->palavraOriginal] = $palavra->significado;
@@ -68,7 +70,12 @@ class LeitorController extends Controller
 
         $pagina++;
 
-        return response()->json(['linhas' => $linhas, 'pagina' => $pagina, 'palavras' => $palavrasArray]);
+        return response()->json([
+        'idioma' => $arrayDoc['idioma'],
+        'linhas' => $linhas,
+        'pagina' => $pagina,
+        'palavras' => $palavrasArray
+    ]);
     }
 
     public function salvarPagina(Request $request)
@@ -129,6 +136,7 @@ class LeitorController extends Controller
     private function getPalavras($idioma)
     {
 
+        //salvar direto como array
         if (session('documento.idioma') != $idioma) {
             $palavras = Palavra::whereRaw("idioma = ?", [$idioma])->get();
             return $palavras;

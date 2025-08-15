@@ -46,5 +46,5 @@
 @endsection
 
 @section('script')
-    @vite('resources/js/leitor.js')
+    @vite('resources/js/leitor/leitor.js')
 @endsection
