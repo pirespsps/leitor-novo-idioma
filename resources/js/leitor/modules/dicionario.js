@@ -3,7 +3,7 @@ export function abrirDicionario(palavra, idioma) {
     let lar_janela = window.innerWidth;
     let alt_janela = window.innerHeight;
     let dicionario = getLinkDicionario(idioma);
-    palavra = palavra.trim(); //trocar char especial
+    palavra = palavra.trim(); //trocar para quando tiver char especial
     window.open(`${dicionario}${palavra}`, "_blank", "toolbar=false, scrollbars=false,resizable=true, top=" + (-alt_janela) + ", left=" + (-lar_janela) + ", width=570, height=600");
 }
 
@@ -14,7 +14,6 @@ export function isPalavraConhecida(palavra, palavras){
     }else{
         return false;
     }
-
 }
 
 function getLinkDicionario(idioma){

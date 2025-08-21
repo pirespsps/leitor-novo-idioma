@@ -1,116 +1,126 @@
-import {isPalavraConhecida,abrirDicionario} from "./dicionario.js";
-import {mostrarPopUp} from "./popup.js";
+import { isPalavraConhecida, abrirDicionario } from "./dicionario.js";
+import { mostrarPopUp } from "./popup.js";
 
-export function mudarTexto(pagina,paginasTotais,checkPagina) {
+let palavras;
+let idioma;
+
+export function mudarTexto(pagina, paginasTotais, checkPagina) {
 
     let textoDiv = document.getElementById("textoDoc");
     textoDiv.innerHTML = "<div class='loader'></div>";
+
+    textoDiv.addEventListener("click", e => {
+
+    if (e.target.classList.contains('palavraDesconhecida') && e.target.tagName == 'SPAN') {
+        let palavra = e.target.textContent.replace(/[^A-Za-zÀ-ÿ-']/, "");
+        abrirDicionario(palavra, idioma);
+        mostrarPopUp(palavra);
+    }
+    
+});
 
     axios.post("/documento/ler", {
         pagina: pagina
     })
         .then(
             response => {
-                textoDiv = document.getElementById("textoDoc");
                 textoDiv.innerHTML = "";
 
                 const linhas = Object.values(response.data.linhas);
-                const palavras = response.data.palavras;
-                const idioma = response.data.idioma;
-                console.log("idioma = " + idioma );
+                palavras = response.data.palavras; //palavras conhecidas
+                idioma = response.data.idioma;
 
+                let fragment = document.createElement("div");
                 linhas.forEach(linha => {
-                    textoDiv.appendChild(dividirLinha(linha,palavras,idioma));
+                    fragment.appendChild(dividirLinha(linha));
                 });
+                textoDiv.appendChild(fragment);
 
                 document.getElementById("paginaAtual").innerHTML = response.data.pagina
-                checkPagina(pagina,paginasTotais);
+                checkPagina(pagina, paginasTotais);
             })
         .catch(
             error => console.log(error)
         )
 }
 
-function dividirLinha(linha,palavras,idioma) {
+function dividirLinha(linha) {
 
     let novaLinha = document.createElement("pre");
     novaLinha.classList = "container";
-    const re = /[^A-Za-zÀ-ÿ-']/;
+    let re = /^[^A-Za-zÀ-ÿ']|[^A-Za-zÀ-ÿ']$/;
 
     linha.forEach(palavra => {
 
         const espaco = document.createElement("span");
         espaco.textContent = "";
 
-        if(palavra == " "){
+        if (palavra == " ") {
             novaLinha.appendChild(espaco);
         }
 
         if (palavra.search(re) == -1) {
+            novaLinha = insertPalavraSemSpecial(palavra,novaLinha);
 
-            let palavraDiv = document.createElement("span");
-            palavraDiv.textContent = palavra.trim();
-            palavraDiv.style.cursor = "pointer"
-
-            adicionarEventListener(palavraDiv,palavras,idioma);
-
-            novaLinha.appendChild(palavraDiv);
-
-        }else{
-            //arrumar para quando o char estiver no meio da palavra.. (d'être, aujourd'hui...)
-            //separar em função
-
-            const strEspecial = palavra.charAt(palavra.search(re));
-            const charEspecial = document.createElement("span");
-            charEspecial.textContent = strEspecial;
-
-            const palavraDiv = document.createElement("span");
-            palavraDiv.textContent = palavra.replace(strEspecial,"");
-            palavraDiv.style.cursor = "pointer"
-
-            adicionarEventListener(palavraDiv,palavras,idioma);
-
-            if(palavra.indexOf(charEspecial.textContent) == 0){
-
-                novaLinha.appendChild(charEspecial);
-                novaLinha.appendChild(palavraDiv);
-                novaLinha.appendChild(espaco);
-
-            }else{
-                novaLinha.appendChild(palavraDiv);
-                novaLinha.appendChild(charEspecial);
-            }
+        } else {
+            novaLinha = insertPalavraSpecial(palavra,re,novaLinha);
         }
     })
 
     return novaLinha;
 }
 
-function adicionarEventListener(palavra,palavras,idioma) {
+function adicionarEventListener(palavra, palavras) {
 
     if (palavra.textContent != "" && palavra.textContent != null && palavra.textContent != " ") {
 
-        const search = isPalavraConhecida(palavra.textContent,palavras);
+        const search = isPalavraConhecida(palavra.textContent, palavras);
 
-            if(search === false){
-                palavra.addEventListener("mouseover", e => {
-                e.target.style.backgroundColor = "#8093fd";
-            });
-
-            palavra.addEventListener("mouseout", e => {
-                e.target.style.backgroundColor = "white";
-            });
-
-            palavra.addEventListener("click", e => {
-                let palavra = e.target.textContent.replace(/[^A-Za-zÀ-ÿ-']/,"");
-                abrirDicionario(palavra,idioma);
-                mostrarPopUp(palavra);
-            });
-        }else{
+        if (search === false) {
+            palavra.classList.add("palavraDesconhecida");
+        } else {
             palavra.style.backgroundColor = "rgba(128,147,253,0.3)";
             palavra.style.borderRadius = "3px";
             palavra.title = search;
             palavra.classList.add("significado");
         }
     }
+}
+
+function insertPalavraSemSpecial(palavra,linha) {
+    let palavraDiv = document.createElement("span");
+    palavraDiv.classList.add("palavra");
+    palavraDiv.textContent = palavra.trim();
+
+    adicionarEventListener(palavraDiv, palavras, idioma);
+
+    linha.appendChild(palavraDiv);
+    return linha;
+}
+
+function insertPalavraSpecial(palavra,re,linha) {
+
+    const strEspecial = palavra.charAt(palavra.search(re));
+    const charEspecial = document.createElement("span");
+    const espaco = document.createElement("span");
+    charEspecial.textContent = strEspecial;
+
+    const palavraDiv = document.createElement("span");
+    palavraDiv.textContent = palavra.replace(strEspecial, "");
+    palavraDiv.style.cursor = "pointer"
+
+    adicionarEventListener(palavraDiv, palavras, idioma);
+
+    if (palavra.indexOf(charEspecial.textContent) == 0) {
+
+        linha.appendChild(charEspecial);
+        linha.appendChild(palavraDiv);
+        linha.appendChild(espaco);
+
+    } else {
+        linha.appendChild(palavraDiv);
+        linha.appendChild(charEspecial);
+    }
+
+    return linha;
 }

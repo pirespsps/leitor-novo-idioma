@@ -3,24 +3,25 @@
 $primary-color: #8093fd;
 $secondary-color : #d0cccc;
 
-a{
+a {
     text-decoration: none;
     color: black;
 }
 
-body{
+body {
     margin: 0;
 }
 
-header{
+header {
     background-color: $primary-color;
 
-     ul{
+    ul {
         display: inline-flex;
         margin: 0;
         padding: 0;
         list-style: none;
-        li{
+
+        li {
             transition: all 0.3s ease;
             padding: 2vh 2vw 2vh 2vw;
             font-size: 22px;
@@ -28,21 +29,22 @@ header{
     }
 }
 
-.itemMenu:hover{
+.itemMenu:hover {
     background-color: white;
 }
 
-.indexOption{
+.indexOption {
     color: black;
     background-color: $secondary-color;
     transition: all 0.25s ease;
-    &:hover{
+
+    &:hover {
         background-color: white;
         cursor: pointer;
     }
 }
 
-.formClass{
+.formClass {
     color: black;
     display: block;
     background-color: $primary-color;
@@ -51,7 +53,7 @@ header{
     align-items: center;
 }
 
-#textoContainer{
+#textoContainer {
     width: 60%;
     height: fit-content;
     border: 1px solid $secondary-color;
@@ -59,69 +61,89 @@ header{
     margin-left: 20%;
 }
 
-.headerContainer{
+.headerContainer {
     display: inline-flex;
     background-color: $primary-color;
     color: white;
     border-radius: 4px 4px 0 0;
-    .titulo{
+
+    .titulo {
         font-weight: bold;
         margin-right: auto;
         text-align: center;
     }
 }
 
-.significado{
+.significado {
     position: relative;
     display: grid;
-}[title]:hover::after{
+}
+
+[title]:hover::after {
     content: attr(title);
     background-color: $secondary-color;
     position: relative;
 }
 
-#textoDoc{
-    pre{
-        display: flex;
-        padding: 0;
-        overflow-x: hidden;
-        text-align: inherit;
-        margin: 0;
+#textoDoc {
+    div {
         justify-content: inherit;
+
+        pre {
+            display: flex;
+            padding: 0;
+            overflow-x: hidden;
+            text-align: inherit;
+            margin: 0;
+            justify-content: inherit;
+
+            span {
+                padding: 0;
+                width: fit-content;
+            }
+        }
     }
-    span{
-        padding: 0;
-        width: fit-content;
-    }
+
 }
 
-#botoesLeitor{
+.palavraDesconhecida:hover {
+    background-color: $primary-color;
+    cursor: pointer;
+}
+
+#botoesLeitor {
     display: inline-flex;
     width: 100%;
     display: flex;
     gap: 25%;
     justify-content: center;
-    button{
+
+    button {
         width: 25%;
     }
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid $secondary-color; 
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  animation: spin 2s linear infinite;
-  justify-self: center;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid $secondary-color;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+    justify-self: center;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-#popupPalavra{
+#popupPalavra {
     background-color: white;
     position: fixed;
     top: 13vh;
@@ -131,7 +153,8 @@ header{
     width: 25%;
     padding: 0;
     text-align: center;
-    div{
+
+    div {
         width: 100%;
         display: block;
         border-radius: 6px 6px 0 0;
@@ -139,7 +162,7 @@ header{
 
 }
 
-#containerDocumentos{
+#containerDocumentos {
     display: inline-flex;
     gap: 3%;
     padding: 2%;
@@ -149,12 +172,12 @@ header{
     overflow-x: auto;
 }
 
-.linkBib{
+.linkBib {
     text-decoration: none;
     color: black;
 }
 
-.containerDocumento{
+.containerDocumento {
     background-color: $primary;
     border-radius: 8px;
     min-width: 25%;
@@ -164,21 +187,22 @@ header{
     overflow-x: hidden;
     transition: all 0.4s ease;
 
-    h1,p{
+    h1,
+    p {
         overflow-x: hidden;
     }
 }
 
-.containerDocumento:hover{
+.containerDocumento:hover {
     background-color: white;
 }
 
-.removeImg{
+.removeImg {
     width: 5%;
     height: 5%;
 }
 
-.rmvBotao{
+.rmvBotao {
     width: 22.3%;
     display: none;
     position: fixed;
@@ -186,17 +210,17 @@ header{
     margin: 0;
 }
 
-.containerDocumento:hover .rmvBotao{
+.containerDocumento:hover .rmvBotao {
     display: block;
 }
 
-#idiomas{
+#idiomas {
     display: inline-flex;
 }
 
-#bodyPalavras{
+#bodyPalavras {
 
-    #exercicios{
+    #exercicios {
         display: flex;
         gap: 3%;
         min-height: 23vh;
@@ -205,33 +229,36 @@ header{
         background-color: $secondary-color;
         overflow-y: hidden;
 
-        .exercicio{
+        .exercicio {
             background-color: $primary-color;
             border-radius: 5px;
             width: 12vw;
             height: 20vh;
             text-align: center;
             transition: all 0.35s ease-in-out;
-            img{
+
+            img {
                 margin-top: 5px;
                 width: 50%;
                 height: 70%;
             }
         }
-        .exercicio:hover{
+
+        .exercicio:hover {
             background-color: white;
             cursor: pointer;
         }
     }
 }
 
-#formPratica{
+#formPratica {
     width: 40vw;
     height: 50vh;
     border-radius: 7px;
-    button{
+
+    button {
         //centralizar melhor
-       margin-left: 15.34vw;
+        margin-left: 15.34vw;
     }
 
 }

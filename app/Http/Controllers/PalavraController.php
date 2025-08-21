@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Session;
 class PalavraController extends Controller
 {
 
-    public function index()
-    {
-        //$idiomas = Palavra::all("idioma")->groupBy('idioma')->toArray();
+    public function index(){
         $idiomas = DB::table('tbPalavra')->distinct()->get('idioma')->toArray();
         $idiomaAr = [];
 
@@ -78,6 +76,24 @@ class PalavraController extends Controller
             'it' => 'Italiano'
         ];
        return $idiomas[$iso] ?? 'Indefinido';
+    }
+
+    public function getPalavras($idioma){
+
+        if (session('documento.idioma') != $idioma) {
+            $palavras = Palavra::select(['palavraOriginal','significado'])
+                                 ->whereRaw("idioma = ?", [$idioma])
+                                 ->get()
+                                 ->map(function($palavra){
+                                    return ['palavra' => $palavra->palavraOriginal,
+                                     'significado' => $palavra->significado];
+                                 })
+                                 ->toArray();
+
+            return $palavras;
+        } else {
+            return session('palavras');
+        }
     }
 
 }

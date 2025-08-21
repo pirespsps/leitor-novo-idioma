@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Documento;
-use App\Models\Palavra;
+use App\Http\Controllers\PalavraController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Smalot\PdfParser\Parser;
@@ -18,7 +18,8 @@ class LeitorController extends Controller
 
         $doc = Documento::find($id);
 
-        $palavras = $this->getPalavras($doc->idioma);
+        $palavraCtr = new PalavraController();
+        $palavras = $palavraCtr->getPalavras($doc->idioma);
         session(['palavras' => $palavras]);
 
         if (session('documento.id') !== $doc->id) {
@@ -59,23 +60,20 @@ class LeitorController extends Controller
         session(['documento' => $arrayDoc]);
 
         $palavras = session('palavras');
-        $palavrasArray = [];
+        $palavrasAr = [];
 
-        //apagar depois de mudar para o session['palavras'] para array
-        if (!is_null($palavras) && !sizeof($palavras) == 0) {
-            foreach ($palavras as $palavra) {
-                $palavrasArray[$palavra->palavraOriginal] = $palavra->significado;
-            }
+        foreach ($palavras as $palavra) {
+            $palavrasAr[$palavra['palavra']] = $palavra['significado'];
         }
 
         $pagina++;
 
         return response()->json([
-        'idioma' => $arrayDoc['idioma'],
-        'linhas' => $linhas,
-        'pagina' => $pagina,
-        'palavras' => $palavrasArray
-    ]);
+            'idioma' => $arrayDoc['idioma'],
+            'linhas' => $linhas,
+            'pagina' => $pagina,
+            'palavras' => $palavrasAr
+        ]);
     }
 
     public function salvarPagina(Request $request)
@@ -130,18 +128,6 @@ class LeitorController extends Controller
             return $novoArray;
         } else {
             return [$str];
-        }
-    }
-
-    private function getPalavras($idioma)
-    {
-
-        //salvar direto como array
-        if (session('documento.idioma') != $idioma) {
-            $palavras = Palavra::whereRaw("idioma = ?", [$idioma])->get();
-            return $palavras;
-        } else {
-            return session('palavras');
         }
     }
 
