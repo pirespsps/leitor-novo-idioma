@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Session;
 class PalavraController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $idiomas = DB::table('tbPalavra')->distinct()->get('idioma')->toArray();
         $idiomaAr = [];
 
@@ -26,21 +27,22 @@ class PalavraController extends Controller
         );
     }
 
-    public function lerIdioma(Request $request, $idioma){
+    public function lerIdioma(Request $request, $idioma)
+    {
 
-        $palavras = Palavra::select(['id','palavraOriginal','significado','created_at'])
-                             ->whereRaw('idioma = ?', [$idioma])
-                             ->orderBy('created_at','DESC')
-                             ->get()
-                             ->map(function($palavra){
-                                return [
-                                    'original' => $palavra->palavraOriginal,
-                                    'significado' => $palavra->significado,
-                                    'data' => $palavra->created_at->format('d/m/Y'),
-                                    'id' => $palavra->id
-                                ];
-                             })
-                             ->toArray();
+        $palavras = Palavra::select(['id', 'palavraOriginal', 'significado', 'created_at'])
+            ->whereRaw('idioma = ?', [$idioma])
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->map(function ($palavra) {
+                return [
+                    'original' => $palavra->palavraOriginal,
+                    'significado' => $palavra->significado,
+                    'data' => $palavra->created_at->format('d/m/Y'),
+                    'id' => $palavra->id
+                ];
+            })
+            ->toArray();
 
         return view(
             'leitor-palavras',
@@ -67,7 +69,8 @@ class PalavraController extends Controller
     }
 
     //criar classe de formatação
-    private function isoToPalavra($iso){
+    private function isoToPalavra($iso)
+    {
         $idiomas = [
             'pt' => 'Português',
             'en' => 'Inglês',
@@ -75,25 +78,25 @@ class PalavraController extends Controller
             'fr' => 'Francês',
             'it' => 'Italiano'
         ];
-       return $idiomas[$iso] ?? 'Indefinido';
+        return $idiomas[$iso] ?? 'Indefinido';
     }
 
-    public function getPalavras($idioma){
+    public function getPalavras($idioma)
+    {
 
-        if (session('documento.idioma') != $idioma) {
-            $palavras = Palavra::select(['palavraOriginal','significado'])
-                                 ->whereRaw("idioma = ?", [$idioma])
-                                 ->get()
-                                 ->map(function($palavra){
-                                    return ['palavra' => $palavra->palavraOriginal,
-                                     'significado' => $palavra->significado];
-                                 })
-                                 ->toArray();
+        $palavras = Palavra::select(['palavraOriginal', 'significado'])
+            ->whereRaw("idioma = ?", [$idioma])
+            ->get()
+            ->map(function ($palavra) {
+                return [
+                    'palavra' => $palavra->palavraOriginal,
+                    'significado' => $palavra->significado
+                ];
+            })
+            ->toArray();
 
-            return $palavras;
-        } else {
-            return session('palavras');
-        }
+        return $palavras;
+
     }
 
 }

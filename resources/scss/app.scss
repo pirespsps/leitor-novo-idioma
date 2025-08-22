@@ -1,6 +1,7 @@
 @import 'bootstrap/scss/bootstrap';
 
 $primary-color: #8093fd;
+$primary-color-soft: #b3befe;
 $secondary-color : #d0cccc;
 
 a {
@@ -75,20 +76,33 @@ header {
 }
 
 .significado {
+    background-color: $primary-color-soft;
+    border-radius: 3px;
     position: relative;
     display: grid;
+    overflow-y: visible;
+}
+
+[title]{
+    position: relative;
 }
 
 [title]:hover::after {
     content: attr(title);
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: $secondary-color;
-    position: relative;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 150;
 }
 
 #textoDoc {
     div {
         justify-content: inherit;
-
         pre {
             display: flex;
             padding: 0;
@@ -96,6 +110,8 @@ header {
             text-align: inherit;
             margin: 0;
             justify-content: inherit;
+            position: relative;
+            overflow: visible;
 
             span {
                 padding: 0;
@@ -105,6 +121,7 @@ header {
     }
 
 }
+
 
 .palavraDesconhecida:hover {
     background-color: $primary-color;

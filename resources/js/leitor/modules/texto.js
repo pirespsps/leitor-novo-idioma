@@ -55,10 +55,6 @@ function dividirLinha(linha) {
         const espaco = document.createElement("span");
         espaco.textContent = "";
 
-        if (palavra == " ") {
-            novaLinha.appendChild(espaco);
-        }
-
         if (palavra.search(re) == -1) {
             novaLinha = insertPalavraSemSpecial(palavra,novaLinha);
 
@@ -79,8 +75,6 @@ function adicionarEventListener(palavra, palavras) {
         if (search === false) {
             palavra.classList.add("palavraDesconhecida");
         } else {
-            palavra.style.backgroundColor = "rgba(128,147,253,0.3)";
-            palavra.style.borderRadius = "3px";
             palavra.title = search;
             palavra.classList.add("significado");
         }
@@ -102,12 +96,10 @@ function insertPalavraSpecial(palavra,re,linha) {
 
     const strEspecial = palavra.charAt(palavra.search(re));
     const charEspecial = document.createElement("span");
-    const espaco = document.createElement("span");
     charEspecial.textContent = strEspecial;
 
     const palavraDiv = document.createElement("span");
     palavraDiv.textContent = palavra.replace(strEspecial, "");
-    palavraDiv.style.cursor = "pointer"
 
     adicionarEventListener(palavraDiv, palavras, idioma);
 
@@ -115,7 +107,6 @@ function insertPalavraSpecial(palavra,re,linha) {
 
         linha.appendChild(charEspecial);
         linha.appendChild(palavraDiv);
-        linha.appendChild(espaco);
 
     } else {
         linha.appendChild(palavraDiv);

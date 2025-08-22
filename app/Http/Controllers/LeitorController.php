@@ -18,9 +18,17 @@ class LeitorController extends Controller
 
         $doc = Documento::find($id);
 
-        $palavraCtr = new PalavraController();
-        $palavras = $palavraCtr->getPalavras($doc->idioma);
-        session(['palavras' => $palavras]);
+        if ($doc->idioma !== session('documento.idioma')) {
+            $palavraCtr = new PalavraController();
+            $palavras = $palavraCtr->getPalavras($doc->idioma);
+            $palavrasAr = [];
+
+            foreach ($palavras as $palavra) {
+                $palavrasAr[$palavra['palavra']] = $palavra['significado'];
+            }
+        session(['palavras' => $palavrasAr]);
+            
+        }
 
         if (session('documento.id') !== $doc->id) {
             session([
@@ -60,11 +68,6 @@ class LeitorController extends Controller
         session(['documento' => $arrayDoc]);
 
         $palavras = session('palavras');
-        $palavrasAr = [];
-
-        foreach ($palavras as $palavra) {
-            $palavrasAr[$palavra['palavra']] = $palavra['significado'];
-        }
 
         $pagina++;
 
@@ -72,7 +75,7 @@ class LeitorController extends Controller
             'idioma' => $arrayDoc['idioma'],
             'linhas' => $linhas,
             'pagina' => $pagina,
-            'palavras' => $palavrasAr
+            'palavras' => $palavras
         ]);
     }
 
