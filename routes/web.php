@@ -26,4 +26,6 @@ Route::post('/documento/salvarPalavra',[PalavraController::class, 'salvarPalavra
 
 Route::get('/palavras',[PalavraController::class,'index']);
 Route::get('/palavras/{idioma}',[PalavraController::class,'lerIdioma']);
+
 Route::get('/palavras/{idioma}/praticar',[PraticaController::class,'index']);
+Route::post('/palavras/{idioma}/praticar/resultado',[PraticaController::class,'resultado']);

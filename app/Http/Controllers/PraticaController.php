@@ -9,7 +9,7 @@ use App\Models\Palavra;
 
 class PraticaController extends Controller
 {
-    function index(Request $request, $idioma){
+    public function index(Request $request, $idioma){
         //fazer em uma query depois
 
 
@@ -27,6 +27,12 @@ class PraticaController extends Controller
                                 ->toArray();
 
 
-        return view('praticar', ['palavras' => $palavras]);
+        return view('praticar', ['palavras' => $palavras, 'tamanho' => sizeof($palavras)]);
     }
+
+    public function resultado(Request $request){
+
+        return view('praticar-resultado');
+    }
+
 }
