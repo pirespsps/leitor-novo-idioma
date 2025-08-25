@@ -92,11 +92,11 @@ header {
     position: absolute;
     bottom: 20px;
     left: 50%;
-    transform: translateX(-50%);
     background-color: $secondary-color;
     padding: 5px 10px;
     border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transform: translateX(-50%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     z-index: 150;
 }
 
@@ -106,7 +106,6 @@ header {
         pre {
             display: flex;
             padding: 0;
-            overflow-x: hidden;
             text-align: inherit;
             margin: 0;
             justify-content: inherit;

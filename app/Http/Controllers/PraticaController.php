@@ -30,9 +30,18 @@ class PraticaController extends Controller
         return view('praticar', ['palavras' => $palavras, 'tamanho' => sizeof($palavras)]);
     }
 
-    public function resultado(Request $request){
+    public function resultado(Request $request, $idioma){
+        $palavras = $request->input("palavras");
+        $significados = $request->input("significados");
+        $tentativas = $request->input("tentativas");
 
-        return view('praticar-resultado');
+        print_r($palavras);
+        echo "<br>";
+        print_r($significados);
+        echo "<br>";
+        print_r($tentativas);
+
+        return view("praticar-resultado");
     }
 
 }
